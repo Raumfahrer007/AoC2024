@@ -8,7 +8,7 @@ def find_start_position_and_direction(input):
                 if object == "^":
                     return [line_count, column_count], "N"
                 
-def get_visited_positions(input, current_position, current_direction):
+def get_visited_positions(input, current_position, current_direction):  #Set of visited positions | Set of intersections | Loop or not
     walked_way = {
         "N": [],
         "E": [],
@@ -17,6 +17,7 @@ def get_visited_positions(input, current_position, current_direction):
     }
     route_finished = False
     loop = False
+    visited_positions = set()
 
     while not route_finished:
         if current_position in walked_way[current_direction]:
@@ -25,6 +26,7 @@ def get_visited_positions(input, current_position, current_direction):
             break
         else:
             walked_way[current_direction].append(current_position.copy())
+            visited_positions.add(tuple(current_position))
 
             match current_direction:
                 case "N":
@@ -59,18 +61,13 @@ def get_visited_positions(input, current_position, current_direction):
                             current_direction = "N"
                     else:
                         route_finished = True
-    
-    visited_positions = set()
-    for direction in walked_way:
-        for position in walked_way[direction]:
-            visited_positions.add(tuple(position))
 
     return visited_positions, loop
 
 
 def part_one(input):
     current_position, current_direction = find_start_position_and_direction(input)
-    visited_positions, _ = get_visited_positions(input, current_position, current_direction)
+    visited_positions, _= get_visited_positions(input, current_position, current_direction)
 
     print("PartOne: " + str(len(visited_positions)))
 
@@ -83,6 +80,7 @@ def part_two(input):
 
     loop_count = 0
     for i, potential_obstacle_postion in enumerate(visited_positions):
+        if i % 100 == 0: print(i)
         new_input = input.copy()
         new_input[potential_obstacle_postion[0]] = new_input[potential_obstacle_postion[0]][:potential_obstacle_postion[1]] + "#" + new_input[potential_obstacle_postion[0]][potential_obstacle_postion[1] + 1:]
 

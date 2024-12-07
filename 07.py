@@ -103,5 +103,5 @@ data = open("07.txt", "r")
 input = data.readlines()
 data.close()
 
-#part_one(input)
+part_one(input)
 part_two(input)

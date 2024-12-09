@@ -1,4 +1,4 @@
-def get_antenna_locations(input):
+def get_antenna_locations(input):   #returns dict with every antenna symbol as key and the corresponding locations
     antenna_locations = {}
     for i, line in enumerate(input):
         line = line.replace("\n", "")
@@ -12,7 +12,7 @@ def get_antenna_locations(input):
     return antenna_locations
 
 
-def get_antinodes_locations(location, next_location, y_border, x_border, recursive=False):
+def get_antinodes_locations(location, next_location, y_border, x_border, recursive=False):  #returns the next two antidodes when looking at two antennas (if antidodes are within grid)
     temp_antinodes = []
     if location[1] < next_location[1]:
         temp_antinodes.append([location[0] - abs(next_location[0] - location[0]), location[1] - abs(next_location[1] - location[1])])
@@ -24,7 +24,7 @@ def get_antinodes_locations(location, next_location, y_border, x_border, recursi
     valid_antinodes = []
     for antinode in temp_antinodes:
         if antinode[0] >= 0 and antinode[0] < y_border:
-            if antinode[1] >= 0 and antinode[1] < x_border:  #-1 because of \n
+            if antinode[1] >= 0 and antinode[1] < x_border:
                 valid_antinodes.append(antinode)
 
     if recursive:
@@ -37,7 +37,7 @@ def get_antinodes_locations(location, next_location, y_border, x_border, recursi
     return valid_antinodes
             
 
-def get_antinodes_of_antinodes(location, next_location, y_border, x_border, valid_antinodes, direction):
+def get_antinodes_of_antinodes(location, next_location, y_border, x_border, valid_antinodes, direction):    #recursivce function to get all antidodes in one direction (either up or down)
     next_antinode = [-1, -1]
     if direction == "up":
         if location[1] < next_location[1]:
